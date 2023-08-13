@@ -448,7 +448,7 @@ def calculate_values(c_del_cao, c_sup_cao, c_del_min, c_del_max, c_sup_max, c_su
 
     ##### May need to correct for some costs x2 style
     del_brut_wage = [week_q['del_u18'].sum().sum() * grouped_wages.loc['u18', f'{del_cao}'], week_q['del_p18'].sum().sum() * grouped_wages.loc['p18', f'{del_cao}'], week_q['del_p21'].sum().sum() * grouped_wages.loc['p21', f'{del_cao}']]
-    del_bon_wage = [(week_pq[f'del_{del_cao}_u18'].sum().sum() - (week_q['del_u18'].sum().sum() * grouped_wages.loc['u18', f'{del_cao}'])), (week_pq[f'del_{del_cao}_p18'].sum().sum() - (week_q['del_p18'].sum().sum() * grouped_wages.loc['p18', f'{del_cao}'])), (week_pq[f'del_{del_cao}_p21'].sum().sum() - (week_q['del_p21'].sum().sum() * grouped_wages.loc['p21', f'{del_cao}']))]
+    del_bon_wage = [(week_pq[f'del_{del_cao}_u18'].sum().sum() - (week_q['del_u18'].sum().sum() * 2 * grouped_wages.loc['u18', f'{del_cao}'])), (week_pq[f'del_{del_cao}_p18'].sum().sum() - (week_q['del_p18'].sum().sum() * 2 * grouped_wages.loc['p18', f'{del_cao}'])), (week_pq[f'del_{del_cao}_p21'].sum().sum() - (week_q['del_p21'].sum().sum() * 2 *grouped_wages.loc['p21', f'{del_cao}']))]
     del_adv = [detailed_implicit_wagecosts_pac[f'del_{del_cao}'].loc['u18', 'ADV'], detailed_implicit_wagecosts_pac[f'del_{del_cao}'].loc['p18', 'ADV'], detailed_implicit_wagecosts_pac[f'del_{del_cao}'].loc['p21', 'ADV']]
     del_vacd = [detailed_implicit_wagecosts_pac[f'del_{del_cao}'].loc['u18', 'Vac days'], detailed_implicit_wagecosts_pac[f'del_{del_cao}'].loc['p18', 'Vac days'], detailed_implicit_wagecosts_pac[f'del_{del_cao}'].loc['p21', 'Vac days']]
     del_vacp = [detailed_implicit_wagecosts_pac[f'del_{del_cao}'].loc['u18', 'Vac pay'], detailed_implicit_wagecosts_pac[f'del_{del_cao}'].loc['p18', 'Vac pay'], detailed_implicit_wagecosts_pac[f'del_{del_cao}'].loc['p21', 'Vac pay']]
@@ -458,7 +458,7 @@ def calculate_values(c_del_cao, c_sup_cao, c_del_min, c_del_max, c_sup_max, c_su
     del_vb = [detailed_implicit_wagecosts_pac[f'del_{del_cao}'].loc['u18', 'Vakbondstientje'], detailed_implicit_wagecosts_pac[f'del_{del_cao}'].loc['p18', 'Vakbondstientje'], detailed_implicit_wagecosts_pac[f'del_{del_cao}'].loc['p21', 'Vakbondstientje']]
 
     sup_brut_wage = [week_q['del_u18'].sum().sum() * grouped_wages.loc['u18', f'{del_cao}'], week_q['del_p18'].sum().sum() * grouped_wages.loc['p18', f'{del_cao}'], week_q['del_p21'].sum().sum() * grouped_wages.loc['p21', f'{del_cao}']]
-    sup_bon_wage = [(week_pq[f'del_{del_cao}_u18'].sum().sum() - (week_q['del_u18'].sum().sum() * grouped_wages.loc['u18', f'{del_cao}'])), (week_pq[f'del_{del_cao}_p18'].sum().sum() - (week_q['del_p18'].sum().sum() * grouped_wages.loc['p18', f'{del_cao}'])), (week_pq[f'del_{del_cao}_p21'].sum().sum() - (week_q['del_p21'].sum().sum() * grouped_wages.loc['p21', f'{del_cao}']))]
+    sup_bon_wage = [(week_pq[f'del_{del_cao}_u18'].sum().sum() - (week_q['del_u18'].sum().sum() * 2 * grouped_wages.loc['u18', f'{del_cao}'])), (week_pq[f'del_{del_cao}_p18'].sum().sum() - (week_q['del_p18'].sum().sum() * 2 *grouped_wages.loc['p18', f'{del_cao}'])), (week_pq[f'del_{del_cao}_p21'].sum().sum() - (week_q['del_p21'].sum().sum() * 2 *grouped_wages.loc['p21', f'{del_cao}']))]
     sup_adv = [detailed_implicit_wagecosts_pac[f'del_{del_cao}'].loc['u18', 'ADV'], detailed_implicit_wagecosts_pac[f'del_{del_cao}'].loc['p18', 'ADV'], detailed_implicit_wagecosts_pac[f'del_{del_cao}'].loc['p21', 'ADV']]
     sup_vacd = [detailed_implicit_wagecosts_pac[f'del_{del_cao}'].loc['u18', 'Vac days'], detailed_implicit_wagecosts_pac[f'del_{del_cao}'].loc['p18', 'Vac days'], detailed_implicit_wagecosts_pac[f'del_{del_cao}'].loc['p21', 'Vac days']]
     sup_vacp = [detailed_implicit_wagecosts_pac[f'del_{del_cao}'].loc['u18', 'Vac pay'], detailed_implicit_wagecosts_pac[f'del_{del_cao}'].loc['p18', 'Vac pay'], detailed_implicit_wagecosts_pac[f'del_{del_cao}'].loc['p21', 'Vac pay']]
@@ -498,9 +498,9 @@ def charts(explicit_costw, implicit_costw, explicit_costm, implicit_costm, expl_
     bar_explicit_costw = axw.bar(provlabel, explicit_costw, b1_w, label='Explicit costs')
     bar_implicit_costw = axw.bar(provlabel, implicit_costw, b1_w, bottom=explicit_costw, label='Implicit costs')
     for i in range(len(explicit_costw)):
-        plt.text(provlabel[i], explicit_costw[i], str(round(explicit_costw[i])), ha='center', va='bottom', fontsize=8)
+        plt.text(provlabel[i], explicit_costw[i]/2, str(round(explicit_costw[i])), ha='center', va='center', fontsize=8)
     for i in range(len(implicit_costw)):
-        plt.text(provlabel[i], implicit_costw[i], str(round(implicit_costw[i])), ha='center', va='bottom', fontsize=8)
+        plt.text(provlabel[i], explicit_costw[i] + implicit_costw[i]/2, str(round(implicit_costw[i])), ha='center', va='center', fontsize=8)
     axw.set_xlabel('Business model', fontsize=8)
     axw.set_ylabel('Total labor costs (€)', fontsize=8)
     axw.set_title('Total weekly labor costs by business model', fontsize=8)
@@ -511,9 +511,9 @@ def charts(explicit_costw, implicit_costw, explicit_costm, implicit_costm, expl_
     bar_explicit_costm = axm.bar(provlabel, explicit_costm, b1_w, label='Explicit costs')
     bar_implicit_costm = axm.bar(provlabel, implicit_costm, b1_w, bottom=explicit_costm, label='Implicit costs')
     for i in range(len(explicit_costm)):
-        plt.text(provlabel[i], explicit_costm[i], str(round(explicit_costm[i])), ha='center', va='bottom', fontsize=8)
+        plt.text(provlabel[i], explicit_costm[i]/2, str(round(explicit_costm[i])), ha='center', va='bottom', fontsize=8)
     for i in range(len(implicit_costm)):
-        plt.text(provlabel[i], implicit_costm[i], str(round(implicit_costm[i])), ha='center', va='bottom', fontsize=8)
+        plt.text(provlabel[i], explicit_costm[i] + implicit_costm[i]/2, str(round(implicit_costm[i])), ha='center', va='bottom', fontsize=8)
     axm.set_xlabel('Business model', fontsize=8)   
     axm.set_ylabel('Total labor costs (€)', fontsize=8)
     axm.set_title('Total monthly labor costs by business model', fontsize=8)
@@ -524,14 +524,19 @@ def charts(explicit_costw, implicit_costw, explicit_costm, implicit_costm, expl_
     bar_explicit_costlt = axlt.bar(provlabel, expl_lt, b1_w, label='Explicit costs')
     bar_implicit_costlt = axlt.bar(provlabel, impl_lt, b1_w, bottom=expl_lt, label='Implicit costs')
     for i in range(len(expl_lt)):
-        plt.text(provlabel[i], expl_lt[i], str(round(expl_lt[i])), ha='center', va='bottom', fontsize=8)
+        plt.text(provlabel[i], expl_lt[i]/2, str(round(expl_lt[i])), ha='center', va='bottom', fontsize=8)
     for i in range(len(impl_lt)):
-        plt.text(provlabel[i], impl_lt[i], str(round(impl_lt[i])), ha='center', va='bottom', fontsize=8)
+        plt.text(provlabel[i], expl_lt[i] + impl_lt[i]/2, str(round(impl_lt[i])), ha='center', va='bottom', fontsize=8)
     axlt.set_xlabel('Business model', fontsize=8)
     axlt.set_ylabel('Total labor costs (€)', fontsize=8)
     axlt.set_title('90w costs (Jan22-Oct23) by business model', fontsize=8)
     axlt.legend(fontsize='small')
     axlt.set_ylim(0, (max(expl_lt) + max(impl_lt))* 1.1)
+
+    #height_2d = [sum(x) for x in zip(del_brut_wage, del_bon_wage, del_adv, del_vacd, del_vacp, del_sf, del_pens, del_dinp, del_vb)]
+    #max_height2d = max(height_2d)
+    #max_height2d = (max(del_brut_wage) + max(del_bon_wage) + max(del_adv) + max(del_vacd) + max(del_vacp) + max(del_sf) + max(del_pens) + max(del_dinp) + max(del_vb))
+    #print(max_height2d)
 
     # Stats3
     fig2d, axd = plt.subplots(figsize=(3, 3))
@@ -549,7 +554,12 @@ def charts(explicit_costw, implicit_costw, explicit_costm, implicit_costm, expl_
     axd.set_title('Deliverer costs per age group', fontsize=8)
     axd.legend(fontsize='small')
     axd.set_xticks(bar_del_u18, ['-18', '18-21', '+21'], fontsize=8)
-    axd.set_ylim(0, (max(explicit_costw) + max(implicit_costw))* 1.1)
+    axd.set_ylim(0, (max(explicit_costw) + max(implicit_costw))* 1.1 * .6)
+
+    #height_2s = [sum(x) for x in zip(sup_brut_wage, sup_bon_wage, sup_adv, sup_vacd, sup_vacp, sup_sf, sup_pens, sup_dinp, sup_vb)]
+    #max_height2s = max(height_2s)
+    #max_height2s = (max(sup_brut_wage) + max(sup_bon_wage) + max(sup_adv) + max(sup_vacd) + max(sup_vacp) + max(sup_sf) + max(sup_pens) + max(sup_dinp) + max(sup_vb))
+    #print(max_height2s)
 
     fig2s, axs = plt.subplots(figsize=(3, 3))
     bar_sup_brut = axs.bar(bar_sup_u18, sup_brut_wage, b2_w, label='Brutto wage')
@@ -566,7 +576,7 @@ def charts(explicit_costw, implicit_costw, explicit_costm, implicit_costm, expl_
     axs.set_title('Supermarket costs per age group', fontsize=8)
     axs.legend(fontsize='small')
     axs.set_xticks(bar_sup_u18, ['-18', '18-21', '+21'], fontsize=8)
-    axs.set_ylim(0, (max(explicit_costw) + max(implicit_costw))* 1.1)
+    axs.set_ylim(0, (max(explicit_costw) + max(implicit_costw))* 1.1 * .6)
 
     chart_bars = {
         'ew': bar_explicit_costw,
